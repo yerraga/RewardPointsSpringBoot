@@ -5,6 +5,7 @@ import com.rewardpoints.Repository.RewardPointsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.rewardpoints.DTO.CustomerDTO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,7 +24,6 @@ public class RewardsService {
         for (RewardPoints rewardPoints1 : rewardsPointlist){
             totalAmount += rewardPoints1.getAmount();
         }
-        log.info("Total amount spent : ", totalAmount);
 
         if (totalAmount < 100 && totalAmount >50){
             totalRewardPoints =  (totalAmount - 50);
@@ -31,5 +31,14 @@ public class RewardsService {
             totalRewardPoints = (50 + ((totalAmount -100 ) *2));
         }
         return totalRewardPoints;
+    }
+
+    public CustomerDTO getCustomerDetails(String customerId) {
+        Optional<RewardPoints> rewardPoints = rewardPointsRepository.findByCustomerId(customerId).stream().findFirst();
+        if (rewardPoints.isPresent()) {
+            RewardPoints rewardPoints1 = rewardPoints.get();
+            return new CustomerDTO(rewardPoints1.getFirstName(), rewardPoints1.getLastName());
+        }
+        throw new RuntimeException("User not found");
     }
 }

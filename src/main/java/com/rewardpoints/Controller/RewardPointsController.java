@@ -1,5 +1,6 @@
 package com.rewardpoints.Controller;
 
+import com.rewardpoints.DTO.CustomerDTO;
 import com.rewardpoints.Service.RewardsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,5 +19,10 @@ public class RewardPointsController {
     @GetMapping("/{customerId}")
     public double getRewardPoints (@PathVariable String customerId, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate){
         return rewardsService.getRewardPoints(customerId, startDate, endDate);
+    }
+
+    @GetMapping("/customers/{customerId}")
+    public CustomerDTO getUser(@PathVariable String customerId){
+        return rewardsService.getCustomerDetails(customerId);
     }
 }

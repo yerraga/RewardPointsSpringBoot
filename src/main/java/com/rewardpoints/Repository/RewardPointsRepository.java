@@ -13,6 +13,6 @@ public interface RewardPointsRepository extends JpaRepository<RewardPoints, Long
     List<RewardPoints> findByCustomerIdAndDateBetween(String customerId, LocalDate startDate, LocalDate endDate);
 
 
-
+    List<RewardPoints> findByCustomerId(String customerId);
 }
 
